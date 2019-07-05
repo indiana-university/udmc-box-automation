@@ -1,0 +1,110 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean",
+            "windows": {
+                "command": "Get-ChildItem .\\ -include bin,obj -Recurse | foreach ($_) { remove-item $_.fullname -Force -Recurse }"
+            },
+            "osx": {
+                "command": "find . -iname \"bin\" -o -iname \"obj\" | xargs rm -rf"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Build",
+            "windows": {
+                "command": "dotnet build; copy local.settings.json bin/Debug/netcoreapp2.2; copy host.json bin/Debug/netcoreapp2.2"
+            },
+            "osx": {
+                "command": "dotnet build && cp local.settings.json bin/Debug/netcoreapp2.2 && cp host.json bin/Debug/netcoreapp2.2"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Restore",
+            "command": "dotnet restore",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Publish",
+            "command": "dotnet publish --configuration Release",
+            "type": "shell",
+            "dependsOn": "clean release",
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Start",
+            "type": "shell",
+            "dependsOn": "Build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/bin/Debug/netcoreapp2.2"
+            },
+            "command": "func host start",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "unit",
+            "command": "dotnet test",
+            "type": "shell",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/functions.tests.unit"
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
