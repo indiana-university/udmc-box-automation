@@ -39,10 +39,26 @@
                 "reveal": "always"
             },
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/src"
             },
             "problemMatcher": "$msCompile"
         },
+        {
+            "label": "Publish",
+            "command": "dotnet publish --configuration Release && cp local.settings.json bin/Release/netcoreapp2.2 && cp host.json bin/Release/netcoreapp2.2 && func azure functionapp publish udmc-box-automation-test",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            },
+            "problemMatcher": "$msCompile"
+        },        
         {
             "label": "Restore",
             "command": "dotnet restore",
@@ -55,7 +71,7 @@
                 "reveal": "always"
             },
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/src"
             },
             "problemMatcher": "$msCompile"
         },
@@ -68,7 +84,7 @@
                 "reveal": "always"
             },
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/src"
             },
             "problemMatcher": "$msCompile"
         },
@@ -81,7 +97,7 @@
                 "isDefault": true
             },
             "options": {
-                "cwd": "${workspaceFolder}/bin/Debug/netcoreapp2.2"
+                "cwd": "${workspaceFolder}/src/bin/Debug/netcoreapp2.2"
             },
             "command": "func host start",
             "isBackground": true,
@@ -102,7 +118,7 @@
                 "reveal": "always"
             },
             "options": {
-                "cwd": "${workspaceFolder}/functions.tests.unit"
+                "cwd": "${workspaceFolder}/tests"
             },
             "problemMatcher": "$msCompile"
         }
