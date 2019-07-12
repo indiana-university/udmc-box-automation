@@ -2,18 +2,20 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
-    <RootNamespace>udmc_box_automation</RootNamespace>
+    <RootNamespace>UDMC</RootNamespace>
     <TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DurableFunctions.FSharp" Version="0.5.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.29" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.0" />
     <PackageReference Include="Box.V2.Core" Version="3.17.*" />
-    <PackageReference Include="NReco.PdfGenerator.LT" Version="1.1.17" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Types.fs" />
+    <Compile Include="Rop.fs" />
+    <Compile Include="Api.fs" />
+    <Compile Include="Box.fs" />
     <Compile Include="Functions.fs" />
     <None Update="host.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
