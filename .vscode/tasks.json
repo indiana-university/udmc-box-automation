@@ -44,8 +44,8 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "Publish",
-            "command": "dotnet publish --configuration Release && cp local.settings.json bin/Release/netcoreapp2.2 && cp host.json bin/Release/netcoreapp2.2 && func azure functionapp publish udmc-box-automation-test",
+            "label": "Publish to Test",
+            "command": "dotnet publish --configuration Release && cp local.settings.json bin/Release/netcoreapp2.2/publish && cp host.json bin/Release/netcoreapp2.2/publish && cd bin/Release/netcoreapp2.2/publish && func azure functionapp publish udmc-box-automation-test",
             "type": "shell",
             "group": {
                 "kind": "build",
@@ -58,7 +58,23 @@
                 "cwd": "${workspaceFolder}/src"
             },
             "problemMatcher": "$msCompile"
-        },        
+        },
+        {
+            "label": "Publish to Prod",
+            "command": "dotnet publish --configuration Release && cp local.settings.json bin/Release/netcoreapp2.2/publish && cp host.json bin/Release/netcoreapp2.2/publish && cd bin/Release/netcoreapp2.2/publish && func azure functionapp publish udmc-box-automation-prod",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            },
+            "problemMatcher": "$msCompile"
+        },
         {
             "label": "Restore",
             "command": "dotnet restore",
