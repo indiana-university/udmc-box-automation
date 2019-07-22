@@ -14,13 +14,15 @@ let ``Box Integration test`` () =
         SubmitterLastName="Hoerr"
         SubmitterEmail="jhoerr@iu.edu"
         ReportUrl="CHANGEME"
-        FileUrl="CHANGEME"
-        FileName="Supplements.md"
-        VendorName="Vendor"
-        ProductName="ProductX"
+        FileUrl=""
+        FileName=""
+        VendorName="VendorY"
+        ProductName="ProductY"
+        Campus="BL"
         DeptCode="Department"
         SsspNumber="1234567"
-        DataDomains="foo, bar" }
+        Assignees="mestell@iu.edu"
+        ItPro="jhoerr@umail-test.iu.edu" }
 
     let env key = 
       let value = key |> System.Environment.GetEnvironmentVariable
@@ -36,3 +38,4 @@ let ``Box Integration test`` () =
 
     boxPipeline args log submission |> Async.RunSynchronously |> ignore
     ()
+   

@@ -11,5 +11,7 @@ type Submission =
     VendorName: string
     ProductName: string
     DeptCode: string
+    Campus: string
     SsspNumber: string
-    DataDomains: string }
+    Assignees: string
+    ItPro: string }
