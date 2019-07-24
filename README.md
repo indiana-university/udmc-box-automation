@@ -17,6 +17,8 @@ This web service is build on the serverless Azure Functions platform. To build t
 
 ## Configuration
 
+### Local settings
+
 The following JSON should be placed in a file, `src/local.settings.json`. This file is gitignored.
 
 ```
@@ -60,3 +62,36 @@ The following JSON should be placed in a file, `src/local.settings.json`. This f
 ## Building
 
 From the `src` folder, run `dotnet build`.
+
+## Local Testing
+
+From the `src` folder, fun `sh start.sh`. The functions will build and the function host will start hosting them.
+
+### Ping
+
+The `Ping` function returns a simple response. It's useful as a heartbeat/availability test, and to ensure that the function host can receive requests.
+
+```
+curl http://localhost:7071/api/ping
+```
+
+### Webhook
+
+The `Webhook` function receives a POST body (defined above) and enqueues, in an Azure Storage Queue, a message representing the POST body details. A subsequent function, `QueueWorker`, is triggered by the arrival of that message and executes the Box workflow. 
+
+```
+curl -X POST \
+  http://localhost:7071/api/ping \
+  -H 'Authorization: Bearer <TOKEN>' \
+  -d '{ "SubmitterFirstName": "John",
+    "SubmitterLastName": "Hoerr",
+    "SubmitterEmail": "jhoerr@iu.edu",
+    "ReportUrl": "<URL>",
+    "FileUrl": "<URL>",
+    "FileName": "<NAME>",
+    "VendorName": "ID Software",
+    "ProductName": "Quake",
+    "DeptCode": "UITS",
+    "SsspNumber": "3133337",
+    "DataDomains": "foo, bar" }'
+```    
