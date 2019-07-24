@@ -22,7 +22,9 @@ let ``Box Integration test`` () =
         DeptCode="Department"
         SsspNumber="1234567"
         Assignees="mestell@iu.edu"
-        ItPro="jhoerr@umail-test.iu.edu" }
+        ItPro="jhoerr@umail-test.iu.edu"
+        PciExists="Yes."
+        Treasury="" }
 
     let env key = 
       let value = key |> System.Environment.GetEnvironmentVariable

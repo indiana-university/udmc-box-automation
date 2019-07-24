@@ -117,7 +117,10 @@ let processList str =
     |> Seq.filter (String.IsNullOrWhiteSpace >> not)
     |> Seq.map addDomain
     |> Seq.toList
-
+ 
+let pciExists (sub:Submission) =
+    not (String.IsNullOrWhiteSpace(sub.PciExists)) && 
+    sub.PciExists.Contains("yes", StringComparison.InvariantCultureIgnoreCase)
 
 /// A pipeline that describes the Box workflow automation for generating request submssion folders, assigning tasks, and creating collaborations.
 let boxPipeline (config, containerFolderId, templateFolderId) (log:string->unit) (submission:Submission) = async {
@@ -141,6 +144,11 @@ let boxPipeline (config, containerFolderId, templateFolderId) (log:string->unit)
         if String.IsNullOrWhiteSpace(submission.ItPro)
         then async.Return Unchecked.defaultof<BoxCollaboration>
         else (createCollaboration submission.ItPro) |> exec log "Create IT Pro collaboration"
+    // Create collaboration with Treasury, if PCI indicated 
+    let! _ = 
+        if submission |> pciExists
+        then submission.Treasury |> processList |> Seq.map createCollaboration |> Async.Parallel |> exec log "Create treasury collaboration(s)"
+        else async.Return Array.empty<BoxCollaboration>
 
     return Ok submission
 }

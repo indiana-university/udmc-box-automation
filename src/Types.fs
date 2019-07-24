@@ -14,4 +14,6 @@ type Submission =
     Campus: string
     SsspNumber: string
     Assignees: string
-    ItPro: string }
+    ItPro: string 
+    Treasury: string
+    PciExists: string }
