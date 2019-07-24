@@ -23,6 +23,8 @@ let config =
 
 /// Authorize requests against the configured secret.
 let authorize =  config.GetValue("Secret") |> authorize
+
+/// Instruct the Box automation to use the configured Box credentials and folders
 let boxConfig = config.GetValue("BoxConfig")
 let containerFolderId = config.GetValue("BoxContainerFolderId")
 let templateFolderId = config.GetValue("BoxTemplateFolderId")
