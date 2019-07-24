@@ -42,7 +42,7 @@ let tryFindItem (client:BoxClient) folderId name = async {
 /// Create a copy of the submission template folder named for this submission. 
 /// Do not overwrite an existing submission folder.
 let createSubmissionFolder (client:BoxClient) (sub:Submission) containerFolderId templateFolderId  = async { 
-    let name = sprintf "%s - %s - %s - %s - %s" sub.VendorName sub.ProductName sub.Campus sub.DeptCode sub.SsspNumber
+    let name = sprintf "%s - %s - %s - %s - %s" sub.ProductName sub.VendorName sub.Campus sub.DeptCode sub.SsspNumber
     let! maybeFolder = tryFindItem client containerFolderId name
     match maybeFolder with
     | Some (folder) -> return folder
