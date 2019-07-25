@@ -57,12 +57,13 @@ let createSubmissionFolder (client:BoxClient) (sub:Submission) containerFolderId
 /// Do not overwrite an existing bookmark.
 let createSubmissionBookmark (client:BoxClient) (sub:Submission) (folder:BoxItem) = async {
     let name = "Survey Response"
+    let url = sprintf "%s&NoStatsTables=1&ResponseSummary=True" sub.ReportUrl |> Uri
     let! maybeBookmark = tryFindItem client folder.Id name
     match maybeBookmark with
     | Some (bookmark) -> return bookmark
     | None ->
         let parent = BoxRequestEntity(Id=folder.Id)
-        let req = BoxWebLinkRequest(Name="Survey Response", Url=Uri(sub.ReportUrl), Parent=parent)
+        let req = BoxWebLinkRequest(Name="Survey Response", Url=url, Parent=parent)
         let! bookmark = client.WebLinksManager.CreateWebLinkAsync(req) |> await
         return bookmark :> BoxItem
 }
