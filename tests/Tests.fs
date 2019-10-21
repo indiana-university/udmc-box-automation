@@ -9,20 +9,22 @@ open Types
 [<Fact>]
 let ``Box Integration test`` () =
     
-    let submission = 
+    let submission : Submission = 
       { SubmitterFirstName="John"
         SubmitterLastName="Hoerr"
         SubmitterEmail="jhoerr@iu.edu"
-        ReportUrl="CHANGEME"
+        ReportUrl="https://iu.co1.qualtrics.com/CP/Report.php?SID=SV_e9CXE97UrWdBR3f&R=R_sMqmEMf6QNZnxol"
         FileUrl=""
         FileName=""
-        VendorName="VendorY"
-        ProductName="ProductY"
+        VendorName="Vendor"
+        ProductName="Product " + DateTime.Now.ToShortTimeString()
         Campus="BL"
         DeptCode="Department"
         SsspNumber="1234567"
-        Assignees="mestell@iu.edu"
-        ItPro="jhoerr@umail-test.iu.edu"
+        LookupUsers="1: mestell; 2: jhoerr"
+        Assignees="1, 2"
+        DataDomains="Peanut Butter, Jelly"
+        ItPro=""
         PciExists="Yes."
         Treasury="" }
 
@@ -39,5 +41,15 @@ let ``Box Integration test`` () =
     let args = (boxConfig, containerfolderId, templateFolderId)
 
     boxPipeline args log submission |> Async.RunSynchronously |> ignore
+
     ()
-   
+
+[<Fact>]
+let ``lookup table`` () =
+  let lookupUsers = "1:foo, mestell; 2: mestell;3:jhoerr; 4: bar,baz";
+  let processAssignees = Box.enumerateTaskAssignees lookupUsers
+  Assert.True((processAssignees "1, 2") = ["foo"; "mestell"])
+  Assert.True((processAssignees "2,3") = ["mestell"; "jhoerr"])
+  Assert.True((processAssignees "2, 1000") = ["mestell"])
+  ()
+

@@ -17,11 +17,11 @@
     <Compile Include="Api.fs" />
     <Compile Include="Box.fs" />
     <Compile Include="Functions.fs" />
-    <None Update="host.json">
+    <None Include="host.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </None>
-    <None Update="local.settings.json">
+    <None Include="local.settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>

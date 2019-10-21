@@ -65,7 +65,7 @@ let exec log action (fn:Async<'T>) = async {
     with
     | exn -> 
         try 
-            sprintf "[Retry] %s" action |> log
+            sprintf "[Retry] %s: %s" action exn.Message |> log
             return! exec' ()
         with
         | exn -> 

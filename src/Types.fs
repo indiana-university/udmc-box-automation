@@ -14,6 +14,8 @@ type Submission =
     Campus: string
     SsspNumber: string
     Assignees: string
+    DataDomains: string
+    LookupUsers: string
     ItPro: string 
     Treasury: string
     PciExists: string }

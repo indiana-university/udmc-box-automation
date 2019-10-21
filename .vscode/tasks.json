@@ -24,60 +24,7 @@
         },
         {
             "label": "Build",
-            "windows": {
-                "command": "dotnet build; copy local.settings.json bin/Debug/netcoreapp2.2; copy host.json bin/Debug/netcoreapp2.2"
-            },
-            "osx": {
-                "command": "dotnet build && cp local.settings.json bin/Debug/netcoreapp2.2 && cp host.json bin/Debug/netcoreapp2.2"
-            },
-            "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/src"
-            },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Publish to Test",
-            "command": "dotnet publish --configuration Release && cp local.settings.json bin/Release/netcoreapp2.2/publish && cp host.json bin/Release/netcoreapp2.2/publish && cd bin/Release/netcoreapp2.2/publish && func azure functionapp publish udmc-box-automation-test",
-            "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/src"
-            },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Publish to Prod",
-            "command": "dotnet publish --configuration Release && cp local.settings.json bin/Release/netcoreapp2.2/publish && cp host.json bin/Release/netcoreapp2.2/publish && cd bin/Release/netcoreapp2.2/publish && func azure functionapp publish udmc-box-automation-prod",
-            "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/src"
-            },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Restore",
-            "command": "dotnet restore",
+            "command": "dotnet build",
             "type": "shell",
             "group": {
                 "kind": "build",
@@ -93,9 +40,81 @@
         },
         {
             "label": "Publish",
+            "dependsOn": "Clean",
             "command": "dotnet publish --configuration Release",
             "type": "shell",
-            "dependsOn": "clean release",
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Package",
+            "dependsOn": "Publish",
+            "osx": {
+                "command": "zip -r publish.zip ./",
+            },
+            "windows": {
+                "command": "\"C:\\Program Files\\7-Zip\\7z.exe\" a -r ./*",
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/src/bin/Release/netcoreapp2.2/publish"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Publish to Test",
+            "dependsOn": "Package",
+            "command": "az functionapp deployment source config-zip --resource-group udmc-box-automation-test --name udmc-box-automation-test --src publish.zip",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/src/bin/Release/netcoreapp2.2/publish"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Publish to Prod",
+            "dependsOn": "Package",
+            "command": "az functionapp deployment source config-zip --resource-group uipo-apps --name udmc-box-automation-prod --src publish.zip",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/src/bin/Release/netcoreapp2.2/publish"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Restore",
+            "command": "dotnet restore",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "presentation": {
                 "reveal": "always"
             },
